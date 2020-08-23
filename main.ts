@@ -24,14 +24,12 @@ function getTiltDirection () {
         } else {
             moveDirection = 7
         }
+    } else if (tiltLeftRight == -1) {
+        moveDirection = 4
+    } else if (tiltLeftRight == 1) {
+        moveDirection = 5
     } else {
-        if (tiltLeftRight == -1) {
-            moveDirection = 4
-        } else if (tiltLeftRight == 1) {
-            moveDirection = 5
-        } else {
-            moveDirection = 0
-        }
+        moveDirection = 0
     }
 }
 function checkForwardBack () {
@@ -137,13 +135,12 @@ let yDot = 0
 let xDot = 0
 xDot = 2
 yDot = 2
-let onEdge = 0
-tiltThreshold = 20
+tiltThreshold = 10
 led.toggle(xDot, yDot)
 basic.forever(function () {
     checkForwardBack()
     checkLeftRight()
     getTiltDirection()
     moveDot()
-    basic.pause(500)
+    basic.pause(200)
 })
