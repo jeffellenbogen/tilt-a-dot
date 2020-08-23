@@ -1,3 +1,34 @@
+function moveWithBordersOff () {
+    if (moveDirection == 1) {
+        xDot += -1
+        yDot += -1
+    } else if (moveDirection == 2) {
+        yDot += -1
+    } else if (moveDirection == 3) {
+        xDot += 1
+        yDot += -1
+    } else if (moveDirection == 4) {
+        xDot += -1
+    } else if (moveDirection == 5) {
+        xDot += 1
+    } else if (moveDirection == 6) {
+        xDot += -1
+        yDot += 1
+    } else if (moveDirection == 7) {
+        yDot += 1
+    } else if (moveDirection == 8) {
+        xDot += 1
+        yDot += 1
+    } else {
+        xDot += 0
+        yDot += 0
+    }
+    if (xDot >= 0 && xDot <= 4 && (yDot >= 0 && yDot <= 4)) {
+    	
+    } else {
+        offScreen()
+    }
+}
 function checkLeftRight () {
     if (input.rotation(Rotation.Roll) < -1 * tiltThreshold) {
         tiltLeftRight = -1
@@ -10,6 +41,32 @@ function checkLeftRight () {
 input.onButtonPressed(Button.A, function () {
     bordersOn = 1
 })
+function moveWithBordersOn () {
+    if (moveDirection == 1 && (xDot > 0 && yDot > 0)) {
+        xDot += -1
+        yDot += -1
+    } else if (moveDirection == 2 && yDot > 0) {
+        yDot += -1
+    } else if (moveDirection == 3 && (xDot < 4 && yDot > 0)) {
+        xDot += 1
+        yDot += -1
+    } else if (moveDirection == 4 && xDot > 0) {
+        xDot += -1
+    } else if (moveDirection == 5 && xDot < 4) {
+        xDot += 1
+    } else if (moveDirection == 6 && (xDot > 0 && yDot < 4)) {
+        xDot += -1
+        yDot += 1
+    } else if (moveDirection == 7 && yDot < 4) {
+        yDot += 1
+    } else if (moveDirection == 8 && (xDot < 4 && yDot < 4)) {
+        xDot += 1
+        yDot += 1
+    } else {
+        xDot += 0
+        yDot += 0
+    }
+}
 function getTiltDirection () {
     if (tiltForwardBack == 1) {
         if (tiltLeftRight == -1) {
@@ -97,73 +154,21 @@ function offScreen () {
     } else {
     	
     }
-    led.toggle(xDot, yDot)
 }
 function moveDot () {
     led.toggle(xDot, yDot)
-    if (bordersOn == 0) {
-        if (moveDirection == 1) {
-            xDot += -1
-            yDot += -1
-        } else if (moveDirection == 2) {
-            yDot += -1
-        } else if (moveDirection == 3) {
-            xDot += 1
-            yDot += -1
-        } else if (moveDirection == 4) {
-            xDot += -1
-        } else if (moveDirection == 5) {
-            xDot += 1
-        } else if (moveDirection == 6) {
-            xDot += -1
-            yDot += 1
-        } else if (moveDirection == 7) {
-            yDot += 1
-        } else if (moveDirection == 8) {
-            xDot += 1
-            yDot += 1
-        } else {
-            xDot += 0
-            yDot += 0
-        }
-        if (xDot >= 0 && xDot <= 4 && (yDot >= 0 && yDot <= 4)) {
-            led.toggle(xDot, yDot)
-        } else {
-            offScreen()
-        }
+    if (bordersOn == 1) {
+        moveWithBordersOn()
     } else {
-        if (moveDirection == 1 && (xDot > 0 && yDot > 0)) {
-            xDot += -1
-            yDot += -1
-        } else if (moveDirection == 2 && yDot > 0) {
-            yDot += -1
-        } else if (moveDirection == 3 && (xDot < 4 && yDot > 0)) {
-            xDot += 1
-            yDot += -1
-        } else if (moveDirection == 4 && xDot > 0) {
-            xDot += -1
-        } else if (moveDirection == 5 && xDot < 4) {
-            xDot += 1
-        } else if (moveDirection == 6 && (xDot > 0 && yDot < 4)) {
-            xDot += -1
-            yDot += 1
-        } else if (moveDirection == 7 && yDot < 4) {
-            yDot += 1
-        } else if (moveDirection == 8 && (xDot < 4 && yDot < 4)) {
-            xDot += 1
-            yDot += 1
-        } else {
-            xDot += 0
-            yDot += 0
-        }
-        led.toggle(xDot, yDot)
+        moveWithBordersOff()
     }
+    led.toggle(xDot, yDot)
 }
 let yDotTemp = 0
 let xDotTemp = 0
-let moveDirection = 0
 let tiltForwardBack = 0
 let tiltLeftRight = 0
+let moveDirection = 0
 let tiltThreshold = 0
 let yDot = 0
 let xDot = 0
