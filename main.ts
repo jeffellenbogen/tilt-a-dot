@@ -7,6 +7,9 @@ function checkLeftRight () {
         tiltLeftRight = 0
     }
 }
+input.onButtonPressed(Button.A, function () {
+    bordersOn = 1
+})
 function getTiltDirection () {
     if (tiltForwardBack == 1) {
         if (tiltLeftRight == -1) {
@@ -41,6 +44,9 @@ function checkForwardBack () {
         tiltForwardBack = 0
     }
 }
+input.onButtonPressed(Button.B, function () {
+    bordersOn = 0
+})
 function offScreen () {
     if (moveDirection == 1) {
         xDot += 1
@@ -95,34 +101,62 @@ function offScreen () {
 }
 function moveDot () {
     led.toggle(xDot, yDot)
-    if (moveDirection == 1) {
-        xDot += -1
-        yDot += -1
-    } else if (moveDirection == 2) {
-        yDot += -1
-    } else if (moveDirection == 3) {
-        xDot += 1
-        yDot += -1
-    } else if (moveDirection == 4) {
-        xDot += -1
-    } else if (moveDirection == 5) {
-        xDot += 1
-    } else if (moveDirection == 6) {
-        xDot += -1
-        yDot += 1
-    } else if (moveDirection == 7) {
-        yDot += 1
-    } else if (moveDirection == 8) {
-        xDot += 1
-        yDot += 1
+    if (bordersOn == 0) {
+        if (moveDirection == 1) {
+            xDot += -1
+            yDot += -1
+        } else if (moveDirection == 2) {
+            yDot += -1
+        } else if (moveDirection == 3) {
+            xDot += 1
+            yDot += -1
+        } else if (moveDirection == 4) {
+            xDot += -1
+        } else if (moveDirection == 5) {
+            xDot += 1
+        } else if (moveDirection == 6) {
+            xDot += -1
+            yDot += 1
+        } else if (moveDirection == 7) {
+            yDot += 1
+        } else if (moveDirection == 8) {
+            xDot += 1
+            yDot += 1
+        } else {
+            xDot += 0
+            yDot += 0
+        }
+        if (xDot >= 0 && xDot <= 4 && (yDot >= 0 && yDot <= 4)) {
+            led.toggle(xDot, yDot)
+        } else {
+            offScreen()
+        }
     } else {
-        xDot += 0
-        yDot += 0
-    }
-    if (xDot >= 0 && xDot <= 4 && (yDot >= 0 && yDot <= 4)) {
+        if (moveDirection == 1 && (xDot > 0 && yDot > 0)) {
+            xDot += -1
+            yDot += -1
+        } else if (moveDirection == 2 && yDot > 0) {
+            yDot += -1
+        } else if (moveDirection == 3 && (xDot < 4 && yDot > 0)) {
+            xDot += 1
+            yDot += -1
+        } else if (moveDirection == 4 && xDot > 0) {
+            xDot += -1
+        } else if (moveDirection == 5 && xDot < 4) {
+            xDot += 1
+        } else if (moveDirection == 6 && (xDot > 0 && yDot < 4)) {
+            xDot += -1
+            yDot += 1
+        } else if (moveDirection == 7 && yDot < 4) {
+            yDot += 1
+        } else if (moveDirection == 8 && (xDot < 4 && yDot < 4)) {
+            xDot += 1
+            yDot += 1
+        } else {
+            xDot += 0
+            yDot += 0
+        }
         led.toggle(xDot, yDot)
-    } else {
-        offScreen()
     }
 }
 let yDotTemp = 0
@@ -133,6 +167,8 @@ let tiltLeftRight = 0
 let tiltThreshold = 0
 let yDot = 0
 let xDot = 0
+let bordersOn = 0
+bordersOn = 1
 xDot = 2
 yDot = 2
 tiltThreshold = 10
